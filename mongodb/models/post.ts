@@ -30,7 +30,9 @@ interface IPostStatics {
 }
 
 // Merge the document methods, and static methods with IPost
-export interface IPostDocument extends IPost, IPostMethods {}
+export interface IPostDocument extends IPost, IPostMethods {
+  comments?: Types.ObjectId[] | IComment[];
+}
 
 interface IPostModel extends IPostStatics, Model<IPostDocument> {}
 
