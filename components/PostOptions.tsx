@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { useEffect, useState } from "react";
 import { MessageCircle, Repeat2, Send, ThumbsUpIcon } from "lucide-react";
@@ -22,7 +22,7 @@ function PostOptions({
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const { user } = useUser();
   const [liked, setLiked] = useState(false);
-  const [likes, setLikes] = useState(post.likes);
+  const [likes, setLikes] = useState(post.likes || []);
 
   useEffect(() => {
     if (user?.id && post.likes?.includes(user.id)) {
@@ -39,8 +39,8 @@ function PostOptions({
     const originalLikes = likes;
 
     const newLikes = liked
-      ? likes?.filter((like) => like !== user.id)
-      : [...(likes ?? []), user.id];
+      ? likes.filter((like) => like !== user.id)
+      : [...(likes || []), user.id];
 
     const body: LikePostRequestBody | UnlikePostRequestBody = {
       userId: user.id,
@@ -88,7 +88,7 @@ function PostOptions({
         </div>
 
         <div>
-          {post?.comments && post.comments.length > 0 && (
+          {post.comments && post.comments.length > 0 && (
             <p
               onClick={() => setIsCommentsOpen(!isCommentsOpen)}
               className="text-xs text-gray-500 cursor-pointer hover:underline"
@@ -140,7 +140,7 @@ function PostOptions({
       {isCommentsOpen && (
         <div className="p-4">
           {user?.id && <CommentForm postId={postId} />}
-          <CommentFeed post={post} />
+          <CommentFeed post={{ ...post, comments: post.comments || [] }} />
         </div>
       )}
     </div>
