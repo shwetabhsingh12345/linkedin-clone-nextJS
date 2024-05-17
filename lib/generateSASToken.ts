@@ -31,13 +31,15 @@ async function generateSASToken() {
   permissions.create = true;
   permissions.read = true;
 
+  // Set expiry date to a distant future date (e.g., 100 years from now)
   const expiryDate = new Date();
-  expiryDate.setMinutes(expiryDate.getMinutes() + 30);
+  expiryDate.setFullYear(expiryDate.getFullYear() + 100);
 
   const sasToken = generateBlobSASQueryParameters(
     {
       containerName: containerClient.containerName,
       permissions: permissions,
+      startsOn: new Date(), // Optionally, you can set startsOn to current time
       expiresOn: expiryDate,
     },
     sharedKeyCredential
