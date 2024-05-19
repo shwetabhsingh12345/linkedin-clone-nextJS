@@ -11,16 +11,11 @@ import { Button } from "./ui/button";
 import ReactTimeago from "react-timeago";
 import { Badge } from "./ui/badge";
 import { toast } from "sonner";
-import React from "react";
 
 function Post({ post }: { post: IPostDocument }) {
   const { user } = useUser();
 
   const isAuthor = user?.id === post.user.userId;
-
-  // Ensure post._id is treated as a string
-  const postId = post._id as unknown as string;
-
   return (
     <div className="bg-white rounded-md border">
       <div className="p-4 flex space-x-2">
@@ -58,7 +53,7 @@ function Post({ post }: { post: IPostDocument }) {
             <Button
               variant="outline"
               onClick={() => {
-                const promise = deletePostAction(postId);
+                const promise = deletePostAction(post._id);
                 toast.promise(promise, {
                   loading: "Deleting post...",
                   success: "Post deleted!",
@@ -87,7 +82,7 @@ function Post({ post }: { post: IPostDocument }) {
         )}
       </div>
 
-      <PostOptions postId={postId} post={post} />
+      <PostOptions postId={post._id} post={post} />
     </div>
   );
 }

@@ -1,4 +1,5 @@
-import mongoose, { Schema, Document, models, Model, Types } from "mongoose";
+// post.ts
+import mongoose, { Schema, Document, models, Model } from "mongoose";
 import { Comment, IComment, ICommentBase } from "./comment";
 import { IUser } from "@/types/user";
 
@@ -6,7 +7,7 @@ export interface IPostBase {
   user: IUser;
   text: string;
   imageUrl?: string;
-  comments?: Types.ObjectId[] | IComment[];
+  comments?: IComment[];
   likes?: string[];
 }
 
@@ -30,10 +31,7 @@ interface IPostStatics {
 }
 
 // Merge the document methods, and static methods with IPost
-export interface IPostDocument extends IPost, IPostMethods {
-  comments?: Types.ObjectId[] | IComment[];
-}
-
+export interface IPostDocument extends IPost, IPostMethods {}
 interface IPostModel extends IPostStatics, Model<IPostDocument> {}
 
 const PostSchema = new Schema<IPostDocument>(
@@ -46,7 +44,7 @@ const PostSchema = new Schema<IPostDocument>(
     },
     text: { type: String, required: true },
     imageUrl: { type: String },
-    comments: { type: [{ type: Schema.Types.ObjectId, ref: "Comment" }], default: [] },
+    comments: { type: [Schema.Types.ObjectId], ref: "Comment", default: [] },
     likes: { type: [String] },
   },
   {
