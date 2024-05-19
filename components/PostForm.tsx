@@ -90,7 +90,9 @@ function PostForm() {
 
         {preview && (
           <div className="mt-2">
-            <img src={preview} alt="Preview" className="w-full object-cover" />
+            <Image src={preview} alt="Preview" className="w-full object-cover" width={500} // desired width
+              height={300} // desired height
+              objectFit="cover" />
           </div>
         )}
 
